@@ -11,9 +11,10 @@ class Game {
    public:
    void display();
    void addItemToPlayer(const std::string& recipient, uint16_t itemId);
-   Player* getPlayerByName() {
+   Player* getPlayerByName(const std::string& recipient) {
     return nullptr;
    }
+   void internalAddItem(uint16_t inbox, Item item, uint16_t index, uint16_t flag);
 };
 class IOLoginData{
     public:
@@ -38,7 +39,7 @@ void Game::addItemToPlayer(const std::string& recipient, uint16_t itemId)
 {
     Player* player = g_game.getPlayerByName(recipient);
     if (!player) {
-        player = new Player(nullptr);
+        player = new Player(nullptr);// Should this be 'new Player(recipient)'?
         if (!IOLoginData::loadPlayerByName(player, recipient)) {
             return;
         }
