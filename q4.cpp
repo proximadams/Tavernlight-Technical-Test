@@ -1,7 +1,8 @@
 #include<iostream>
 using namespace std;
 
-// My additional code:
+// Lines 1 to 36 are added to eliminate errors appearing in my text editor.
+// These are dummy classes and functions which would be replaced in any real implementation.
 const uint16_t INDEX_WHEREEVER = 1;
 const uint16_t FLAG_NOLIMIT = 1;
 
@@ -34,9 +35,10 @@ class Item {
     }
 };
 
-// Original code:
+// The original method which has been edited to remove the memory leak
 void Game::addItemToPlayer(const std::string& recipient, uint16_t itemId)
 {
+    // std::unique_ptr is a smart point which will dispose of player when it goes out of scope
     std::unique_ptr<Player> player(g_game.getPlayerByName(recipient));
     if (!player) {
         player.reset(new Player(nullptr));
@@ -45,6 +47,7 @@ void Game::addItemToPlayer(const std::string& recipient, uint16_t itemId)
         }
     }
 
+    // std::unique_ptr is a smart point which will dispose of item when it goes out of scope
     std::unique_ptr<Item> item(Item::CreateItem(itemId));
     if (!item) {
         return;
