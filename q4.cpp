@@ -50,7 +50,7 @@ void Game::addItemToPlayer(const std::string& recipient, uint16_t itemId)
         return;
     }
 
-    g_game.internalAddItem(player->getInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
+    g_game.internalAddItem(player->getInbox(), item.get(), INDEX_WHEREEVER, FLAG_NOLIMIT);
 
     if (player->isOffline()) {
         IOLoginData::savePlayer(player.get());
