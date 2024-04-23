@@ -1,5 +1,5 @@
 
-function remove_member_from_party(playerId, membername)
+function removeMemberFromParty(playerId, membername)
     local player = Player(playerId)
     local party = player:getParty()
     local memberToRemove = Player(membername)
