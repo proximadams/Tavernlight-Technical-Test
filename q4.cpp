@@ -37,15 +37,15 @@ class Item {
 // Original code:
 void Game::addItemToPlayer(const std::string& recipient, uint16_t itemId)
 {
-    Player* player = g_game.getPlayerByName(recipient);
+    std::unique_ptr<Player> player(g_game.getPlayerByName(recipient));
     if (!player) {
-        player = new Player(nullptr);// Should this be 'new Player(recipient)'?
-        if (!IOLoginData::loadPlayerByName(player, recipient)) {
+        player.reset(new Player(nullptr));
+        if (!IOLoginData::loadPlayerByName(player.get(), recipient)) {
             return;
         }
     }
 
-    Item* item = Item::CreateItem(itemId);
+    std::unique_ptr<Item> item(Item::CreateItem(itemId));
     if (!item) {
         return;
     }
@@ -53,6 +53,6 @@ void Game::addItemToPlayer(const std::string& recipient, uint16_t itemId)
     g_game.internalAddItem(player->getInbox(), item, INDEX_WHEREEVER, FLAG_NOLIMIT);
 
     if (player->isOffline()) {
-        IOLoginData::savePlayer(player);
+        IOLoginData::savePlayer(player.get());
     }
 }
